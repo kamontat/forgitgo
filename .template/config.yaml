@@ -1,0 +1,4 @@
+level: debug # (debug, info, warn, error, fatal, panic)
+formatter:
+  name: text # (text, json)
+  disable_timestamp: false
