@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/kamontat/template/utils"
+	"github.com/kamontat/forgitgo/utils"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -29,7 +29,7 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "template",
+	Use:   "forgitgo",
 	Short: "",
 	Long:  ``,
 	// Run: func(cmd *cobra.Command, args []string) {
@@ -48,7 +48,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.template.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.forgitgo.yaml)")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -66,11 +66,11 @@ func initConfig() {
 
 		vp.SetConfigType("yaml")
 		vp.SetConfigName("config")
-		vp.AddConfigPath(home + "/.template")
-		vp.AddConfigPath("./.template")
+		vp.AddConfigPath(home + "/.forgitgo")
+		vp.AddConfigPath("./.forgitgo")
 	}
 
-	vp.SetEnvPrefix("template")
+	vp.SetEnvPrefix("forgitgo")
 	vp.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.
@@ -78,7 +78,5 @@ func initConfig() {
 		utils.Init(vp)
 
 		utils.Logger().Debug("Config file", vp.ConfigFileUsed())
-	} else {
-		fmt.Printf(err.Error())
 	}
 }

@@ -37,7 +37,7 @@ func Init(viper *viper.Viper) {
 }
 
 func _log(entry logrus.Entry, logType LOGTYPE, title string, message string) {
-	var currentFormat = FORMAT_WITHOUT_LINE
+	var currentFormat = FORMAT
 	var newTitle = strings.ToUpper(title)
 	// if len(message) == 0 {
 	// 	currentFormat = FORMAT

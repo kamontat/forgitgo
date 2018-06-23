@@ -1,8 +1,13 @@
 package cmd
 
 import (
-	"github.com/kamontat/template/utils"
+	"errors"
+	"log"
+	"os"
+
+	"github.com/kamontat/forgitgo/cmd/validation"
 	"github.com/spf13/cobra"
+	git "gopkg.in/src-d/go-git.v4"
 )
 
 // startCmd represents the start command
@@ -11,7 +16,19 @@ var startCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		utils.Logger().Info("Start", "hello world")
+		dir, err := os.Getwd()
+		if err != nil {
+			log.Fatalln(err)
+		}
+		err = validation.HasGit(dir)
+		if err == nil {
+			log.Fatalln(errors.New(".git already exist"))
+		}
+
+		_, err = git.PlainInit(dir, false)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	},
 }
 
