@@ -27,8 +27,8 @@ const (
 )
 
 const (
-	FORMAT              = "[%-12s]: %s \n"
-	FORMAT_WITHOUT_LINE = "[%-12s]: %s "
+	FORMAT              = "[%-15s]: %s \n"
+	FORMAT_WITHOUT_LINE = "[%-15s]: %s "
 )
 
 func Init(viper *viper.Viper) {
@@ -110,4 +110,8 @@ func (logger Model) GitError(title string, message string) {
 
 func (logger Model) PathError(message string) {
 	logger.Error("Path", message).Exit(6)
+}
+
+func (logger Model) PromptError(message string) {
+	logger.Error("Prompt", message).Exit(7)
 }

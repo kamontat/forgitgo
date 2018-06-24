@@ -6,6 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var all bool
+
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:     "add",
@@ -14,8 +16,12 @@ var addCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		runner := client.BeforeRun().SetWorktree()
 
-		for _, elem := range args {
-			runner.Add(elem)
+		if all {
+			runner.Add(".")
+		} else {
+			for _, elem := range args {
+				runner.Add(elem)
+			}
 		}
 
 		utils.Logger().Info("status", "\n"+runner.Status().String())
@@ -24,4 +30,6 @@ var addCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(addCmd)
+
+	addCmd.Flags().BoolVarP(&all, "all", "a", false, "add every untrack files and folders")
 }

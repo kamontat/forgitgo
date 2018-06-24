@@ -1,6 +1,8 @@
 user:
   name: Kamontat Chantrachirathumrong
   email: kamontat.c@hotmail.com
+commit:
+  format: "[%s] %s \n%s"
 level: debug # (debug, info, warn, error, fatal, panic)
 formatter:
   name: text # (text, json)

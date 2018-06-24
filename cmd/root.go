@@ -19,6 +19,8 @@ var Username string
 // Email commit email
 var Email string
 
+var CommitFormat string
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "forgitgo",
@@ -75,5 +77,6 @@ func initConfig() {
 
 		Username = vp.GetString("user.name")
 		Email = vp.GetString("user.email")
+		CommitFormat = vp.GetString("commit.format")
 	}
 }

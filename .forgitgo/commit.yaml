@@ -1,0 +1,10 @@
+- name: feature
+  key: feature
+- name: improvement
+  key: improvement
+- name: library
+  key: library
+- name: refactor
+  key: refactor
+- name: bug
+  key: bug

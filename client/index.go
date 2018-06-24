@@ -2,20 +2,32 @@ package client
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"time"
 
-	"gopkg.in/src-d/go-git.v4/plumbing/object"
+	yaml "gopkg.in/yaml.v2"
 
 	"github.com/kamontat/forgitgo/client/validation"
 	"github.com/kamontat/forgitgo/utils"
 	git "gopkg.in/src-d/go-git.v4"
+	"gopkg.in/src-d/go-git.v4/plumbing/object"
 )
 
 type Runner struct {
 	Dir  string
 	Repo *git.Repository
 	Tree *git.Worktree
+	CMDB []Commit
+}
+
+type Commit struct {
+	Name string
+	Key  string
+}
+
+func (c Commit) String() string {
+	return c.Name
 }
 
 func BeforeRun() Runner {
@@ -82,17 +94,41 @@ func (runner Runner) Add(pattern string) {
 	}
 }
 
-func (runner Runner) Commit(name string, email string, key string, title string, message string) {
+func (runner Runner) SetCommitDatabase(path string) Runner {
+	var commitList []Commit
+
+	file, err := ioutil.ReadFile(path)
+	if err != nil {
+		utils.Logger().WithError(err).GitError("commit", "Cannot get commit database")
+	}
+
+	yaml.Unmarshal(file, &commitList)
+
+	runner.CMDB = commitList
+	return runner
+}
+
+func (runner Runner) Commit(name string, email string, all bool, format string, args ...string) {
 	if runner.Tree == nil {
 		runner = runner.SetWorktree()
 	}
 
-	h, err := runner.Tree.Commit(fmt.Sprintf("[%s] %s\n%s", key, title, message), &git.CommitOptions{
+	var key string
+	var title string
+	var message string
+
+	PromptKey(&key, args, 0, runner.CMDB)
+	PromptTitle(&title, args, 1)
+	PromptMessage(&message, args, 2)
+
+	utils.Logger().Debug("Commit option", fmt.Sprintf("user=%s <%s>, all=%t", name, email, all))
+	h, err := runner.Tree.Commit(fmt.Sprintf(format, key, title, message), &git.CommitOptions{
 		Author: &object.Signature{
 			Name:  name,
 			Email: email,
 			When:  time.Now(),
 		},
+		All: all,
 	})
 	if err != nil {
 		utils.Logger().WithError(err).GitError("worktree", "Cannot commit")
