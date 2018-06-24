@@ -19,15 +19,14 @@ var Username string
 // Email commit email
 var Email string
 
+// CommitFormat is a format of commit message
 var CommitFormat string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "forgitgo",
 	Short:   "Formative git, wrote by pure go",
-	Version: "1.0.0-beta.1",
-	// Run: func(cmd *cobra.Command, args []string) {
-	// },
+	Version: "1.0.0-rc.1",
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
