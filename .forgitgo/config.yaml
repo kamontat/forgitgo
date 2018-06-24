@@ -1,3 +1,6 @@
+user:
+  name: Kamontat Chantrachirathumrong
+  email: kamontat.c@hotmail.com
 level: debug # (debug, info, warn, error, fatal, panic)
 formatter:
   name: text # (text, json)

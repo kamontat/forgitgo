@@ -6,10 +6,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// startCmd represents the start command
-var startCmd = &cobra.Command{
-	Use:   "start",
-	Short: "Run after create new project",
+// statusCmd represents the status command
+var statusCmd = &cobra.Command{
+	Use:     "status",
+	Aliases: []string{"s"},
+	Short:   "Show git status of each file",
 	Run: func(cmd *cobra.Command, args []string) {
 		runner := client.BeforeRun().SetRepository().SetWorktree()
 		utils.Logger().Info("status", "\n"+runner.Status().String())
@@ -17,5 +18,5 @@ var startCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(startCmd)
+	rootCmd.AddCommand(statusCmd)
 }

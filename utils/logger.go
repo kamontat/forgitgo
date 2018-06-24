@@ -103,3 +103,11 @@ func (logger Model) Panic(title string, message string) Model {
 func (logger Model) InformationMissingError(message string) {
 	logger.Error("Missing", message).Exit(5)
 }
+
+func (logger Model) GitError(title string, message string) {
+	logger.Error("Git:"+title, message).Exit(10)
+}
+
+func (logger Model) PathError(message string) {
+	logger.Error("Path", message).Exit(6)
+}

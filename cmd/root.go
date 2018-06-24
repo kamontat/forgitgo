@@ -1,17 +1,3 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package cmd
 
 import (
@@ -27,11 +13,17 @@ import (
 var vp = viper.New()
 var cfgFile string
 
+// Username is commit username
+var Username string
+
+// Email commit email
+var Email string
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "forgitgo",
-	Short: "",
-	Long:  ``,
+	Use:     "forgitgo",
+	Short:   "Formative git, wrote by pure go",
+	Version: "1.0.0-beta.1",
 	// Run: func(cmd *cobra.Command, args []string) {
 	// },
 }
@@ -49,6 +41,8 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.forgitgo.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&Username, "name", "n", "", "commit name")
+	rootCmd.PersistentFlags().StringVarP(&Email, "email", "e", "", "commit email")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -78,5 +72,8 @@ func initConfig() {
 		utils.Init(vp)
 
 		utils.Logger().Debug("Config file", vp.ConfigFileUsed())
+
+		Username = vp.GetString("user.name")
+		Email = vp.GetString("user.email")
 	}
 }
