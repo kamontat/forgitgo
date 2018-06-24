@@ -8,3 +8,7 @@
   key: refactor
 - name: bug
   key: bug
+- name: release
+  key: release
+- name: document
+  key: document
